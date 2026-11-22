@@ -2,6 +2,12 @@
 
 US Roman Rite (Ordinary Form) calendar as standard `.ics` files.
 
+**Subscribe (auto-updating):** https://bionerve.github.io/catholic-calendar/
+- Essentials: `https://bionerve.github.io/catholic-calendar/us-catholic-calendar-essentials.ics`
+- Full: `https://bionerve.github.io/catholic-calendar/us-catholic-calendar.ics`
+
+A GitHub Action rebuilds both on the 1st of every month (previous year + next four), so subscribers never run out of dates.
+
 | File | What's in it |
 |---|---|
 | `dist/us-catholic-calendar.ics` | Everything: solemnities, feasts, memorials, optional memorials, Sundays, Ash Wednesday, Holy Week, Triduum, US observances, season bands |
