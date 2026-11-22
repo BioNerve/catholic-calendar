@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catholic Calendar (US)</title>
+<style>
+  :root { --bg:#fbfaf7; --fg:#1d1b18; --muted:#6b665e; --line:#e4e0d8; --accent:#7a5c1e; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#16150f; --fg:#eeeae2; --muted:#a39d92; --line:#2e2b25; --accent:#d8b56a; } }
+  body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.55 system-ui, sans-serif; }
+  main { max-width:640px; margin:0 auto; padding:48px 16px; }
+  h1 { font-size:1.6rem; margin:0 0 4px; } p.sub { color:var(--muted); margin:0 0 32px; }
+  .card { border:1px solid var(--line); border-radius:10px; padding:18px; margin-bottom:16px; }
+  .card h2 { font-size:1.05rem; margin:0 0 4px; } .card p { margin:0 0 12px; color:var(--muted); font-size:.93rem; }
+  input { width:100%; box-sizing:border-box; font:13px ui-monospace, monospace; padding:8px; border:1px solid var(--line); border-radius:6px; background:transparent; color:var(--fg); }
+  .row { display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+  a.btn, button { font:inherit; font-size:.9rem; padding:7px 12px; border-radius:6px; border:1px solid var(--accent); color:var(--accent); background:transparent; text-decoration:none; cursor:pointer; }
+  ol { padding-left:20px; color:var(--muted); font-size:.93rem; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Catholic Calendar (US)</h1>
+  <p class="sub">Roman Rite, USCCB proper calendar. Updates itself once you subscribe. Rebuilt monthly, always covering last year plus the next four.</p>
+
+  <div class="card" data-file="us-catholic-calendar-essentials.ics">
+    <h2>Essentials</h2>
+    <p>Solemnities, feasts, Sundays, Ash Wednesday, Holy Week, Triduum, US observances, seasons.</p>
+  </div>
+  <div class="card" data-file="us-catholic-calendar.ics">
+    <h2>Full</h2>
+    <p>Everything above plus every memorial and optional memorial.</p>
+  </div>
+
+  <h2 style="font-size:1.05rem">How to subscribe</h2>
+  <ol>
+    <li><b>Google Calendar:</b> click "Google", or on calendar.google.com go to Other calendars → + → From URL and paste the link.</li>
+    <li><b>Outlook:</b> click "Outlook", or Add calendar → Subscribe from web and paste the link.</li>
+    <li><b>Apple / iPhone:</b> click "Apple".</li>
+  </ol>
+  <p class="sub">Google refreshes subscribed calendars every few hours to a day; Outlook every few hours.</p>
+</main>
+<script>
+  const base = location.href.replace(/[^/]*$/, '');
+  document.querySelectorAll('.card').forEach(card => {
+    const url = base + card.dataset.file;
+    const webcal = url.replace(/^https?:/, 'webcal:');
+    card.insertAdjacentHTML('beforeend', `
+      <input readonly value="${url}" onclick="this.select()">
+      <div class="row">
+        <button type="button">Copy link</button>
+        <a class="btn" href="https://calendar.google.com/calendar/r?cid=${encodeURIComponent(webcal)}" target="_blank" rel="noopener">Google</a>
+        <a class="btn" href="https://outlook.live.com/calendar/0/addfromweb?url=${encodeURIComponent(url)}&name=${encodeURIComponent('Catholic Calendar (US)')}" target="_blank" rel="noopener">Outlook</a>
+        <a class="btn" href="${webcal}">Apple</a>
+      </div>`);
+    const btn = card.querySelector('button');
+    btn.onclick = async () => { try { await navigator.clipboard.writeText(url); btn.textContent = 'Copied'; } catch { card.querySelector('input').select(); } };
+  });
+</script>
+</body>
+</html>
